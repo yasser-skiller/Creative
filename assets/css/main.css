@@ -1,0 +1,109 @@
+:root {
+  --BlackColor:#000;
+  --OrangeColor:#E36414;
+  --DakOrangeBlue:#d65c11;
+  --WhiteColor: #fff;
+  --SecColor:#5F0F40;
+  --GrayColor:#F6F6F6;
+  --DarkGray:#6B7377;
+  --GrayFill:#676767;
+  --DarkRedColor:#9A031E;
+  --YellowColor:#FB8B24;
+  --Dark:#0F4C5C;
+  --DarkDark:#0d414f;
+  --fillBlue:#CAD9DD;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+body{
+  font-family: 'Almarai', sans-serif !important;
+  font-size: 14px;
+  direction: rtl;
+  text-align: right ;
+  overflow-x: hidden !important;
+  transition: .75s ease-in-out;
+}
+#__nuxt{
+  overflow-x: hidden !important;
+}
+
+a{
+  text-decoration-line: none !important;
+}
+/* bootstrap modified */
+
+
+/* class */
+.text_orange{
+  color: var(--OrangeColor);
+}
+.text_sec{
+  color: var(--SecColor);
+}
+.btn_orange{
+  background-color: var(--OrangeColor);
+  color: var(--WhiteColor);
+}
+.btn_orange:hover{
+  background-color: var(--DakOrangeBlue);
+  color: var(--WhiteColor);
+  cursor: pointer !important;
+}
+.btn_Dark{
+  background-color: var(--Dark);
+  color: var(--WhiteColor);
+}
+.btn_Dark:hover{
+  background-color: var(--DarkDark);
+  cursor: pointer !important;
+}
+.btn_light{
+  border: 1px var(--SecColor) solid !important;
+  background-color: #fff;
+  color: var(--SecColor);
+}
+.btn_light:hover{
+  border: 1px var(--SecColor) solid !important;
+  background-color:  var(--SecColor);
+  color: #fff;
+  cursor: pointer !important;
+}
+.btn{
+  cursor: pointer !important;
+  outline: none;
+  border: none;
+}
+.bgRed{
+  background-color: var(--DarkRedColor);
+}
+.bgYellow{
+  background-color: var(--YellowColor);
+}
+.bgDark{
+  background-color: var(--Dark);
+}
+.bgGray{
+  background-color: var(--GrayColor);
+}
+.font-16{
+  font-size: 16px;
+}
+.rounded_0{
+  border-radius: 8px;
+}
+.rounded_1{
+  border-radius: 25px;
+}
+.m-sec{
+  margin-top: 100px;
+}
+
+.big_text{
+  font-size: 40px;
+}
+
+.fit-content{
+  height: fit-content;
+}
