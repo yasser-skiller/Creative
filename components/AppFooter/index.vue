@@ -1,5 +1,5 @@
 <template >
-  <div class="bgDark">
+  <div class="bgDark m-sec">
     <b-container class="text-white p-5">
       <img :src="require(`~/assets/icon/logowhite.svg`)" class="logo" alt="icon"/>
 

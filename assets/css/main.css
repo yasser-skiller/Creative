@@ -42,6 +42,9 @@ a{
 .text_sec{
   color: var(--SecColor);
 }
+.text_dark{
+  color: var(--Dark) !important;
+}
 .btn_orange{
   background-color: var(--OrangeColor);
   color: var(--WhiteColor);

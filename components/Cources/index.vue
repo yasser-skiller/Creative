@@ -15,17 +15,17 @@
             </div>
           </div>
           <div class="bgGray shadow p-2">
-            <div class="d-flex justify-content-between ">
+            <div class="d-flex flex_sm_wrap justify-content-between ">
               <div class="d-flex m-2  rounded_0" >
                 <img :src="require(`~/assets/icon/logo.svg`)" class="icon" alt="icon"/>
                 <h6 class="text_orange mr-2 mt-2 font-weight-bold">عنوان الدورة الأول هنا</h6>
               </div>
-              <div class="d-flex align-items-center bgYellow m-2 px-2 py-0 rounded_0" >
+              <div class="d-flex align-items-center bgYellow m-2 py-1 px-2 py-0 rounded_0" >
                 <img :src="require(`~/assets/icon/star.svg`)" class="icon m-0 p-0" alt="icon"/>
                 <span class="text-white m-0 mr-1 p-0 ">(5.0)</span>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-end">
+            <div class="d-flex flex_sm_wrap justify-content-between align-items-end">
               <div>
                 <div class="d-flex align-items-center">
                   <img :src="require(`~/assets/icon/online-learning (1).svg`)" class="icon" alt="icon"/>
@@ -40,7 +40,7 @@
                   <p class="m-0 mr-3">ملخصات ومراجعات والمزيد داخل الدورة</p>
                 </div>
               </div>
-              <b-button size="sm" class="btn btn_Dark fit-content py-3  mx-2  px-5 ppp rounded_0" type="button" >  الذهاب للدورة</b-button>
+              <b-button size="sm" class="btn btn_Dark fit-content mt-3 py-3  mx-2  px-5 ppp rounded_0" type="button" >  الذهاب للدورة</b-button>
             </div>
           </div>
 
@@ -55,17 +55,17 @@
             </div>
           </div>
           <div class="bgGray shadow p-2">
-            <div class="d-flex justify-content-between ">
+            <div class="d-flex  flex_sm_wrap justify-content-between ">
               <div class="d-flex m-2  rounded_0" >
                 <img :src="require(`~/assets/icon/logo.svg`)" class="icon" alt="icon"/>
                 <h6 class="text_orange mr-2 mt-2 font-weight-bold">عنوان الدورة الأول هنا</h6>
               </div>
-              <div class="d-flex align-items-center bgYellow m-2 px-2 py-0 rounded_0" >
+              <div class="d-flex align-items-center bgYellow m-2 py-1 px-2 py-0 rounded_0" >
                 <img :src="require(`~/assets/icon/star.svg`)" class="icon m-0 p-0" alt="icon"/>
                 <span class="text-white m-0 mr-1 p-0 ">(5.0)</span>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-end">
+            <div class="d-flex flex_sm_wrap justify-content-between align-items-end">
               <div>
                 <div class="d-flex align-items-center">
                   <img :src="require(`~/assets/icon/online-learning (1).svg`)" class="icon" alt="icon"/>
@@ -80,7 +80,7 @@
                   <p class="m-0 mr-3">ملخصات ومراجعات والمزيد داخل الدورة</p>
                 </div>
               </div>
-              <b-button size="sm" class="btn btn_Dark fit-content py-3  mx-2  px-5 ppp rounded_0" type="button" >  الذهاب للدورة</b-button>
+              <b-button size="sm" class="btn btn_Dark fit-content py-3 mt-3 mx-2  px-5 ppp rounded_0" type="button" >  الذهاب للدورة</b-button>
             </div>
           </div>
 
@@ -114,5 +114,10 @@ export default {
 }
 .icon{
   width: 15px;
+}
+@media (max-width:768px) {
+  .flex_sm_wrap{
+    flex-wrap: wrap;
+  }
 }
 </style>

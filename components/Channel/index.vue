@@ -5,7 +5,7 @@
         اسم يجمع بين الإبداع ومتعة التعلم
       </p>
       <b-row align-h="center"  class="d-flex flex-wrap justify-content-between align-items-center">
-        <b-col cols="12" sm="10" lg="4"  class="mt-4">
+        <b-col cols="12" sm="10" lg="4"  class="mt-4 mx-auto">
           <div class="bgGray shadow rounded_0 p-3">
             <div class="parent">
               <img :src="require(`~/assets/img/imgg.png`)" class="w-100" alt="icon"/>
@@ -26,7 +26,7 @@
           </div>
 
         </b-col>
-        <b-col cols="12" sm="10" lg="4"  class="mt-4">
+        <b-col cols="12" sm="10" lg="4"  class="mt-4 mx-auto">
           <div class="bgGray shadow rounded_0 p-3">
             <div class="parent">
               <img :src="require(`~/assets/img/chris-liverani-ViEBSoZH6M4-unsplash.png`)" class="w-100" alt="icon"/>
@@ -47,7 +47,7 @@
           </div>
 
         </b-col>
-        <b-col cols="12" sm="10" lg="4"  class="mt-4">
+        <b-col cols="12" sm="10" lg="4"  class="mt-4 mx-auto">
           <div class="bgGray shadow rounded_0 p-3">
             <div class="parent">
               <img :src="require(`~/assets/img/img2.png`)" class="w-100" alt="icon"/>

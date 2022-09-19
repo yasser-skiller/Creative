@@ -5,7 +5,7 @@
         شعارنا دقة الإنتاج و سرعة الأداء
       </p>
       <b-row align-h="center"  class="d-flex flex-wrap justify-content-between align-items-center">
-        <b-col cols="12" sm="10" md="6" lg="3"  class="mt-4">
+        <b-col cols="12" sm="10" md="6" lg="3"  class="mt-4 mx-auto">
           <div class="parent">
             <img :src="require(`~/assets/img/Group 1417.png`)" class="Group" alt="icon"/>
             <div class="overly">
@@ -21,7 +21,7 @@
           </div>
 
         </b-col>
-        <b-col cols="12" sm="10" md="6" lg="3"  class="mt-4">
+        <b-col cols="12" sm="10" md="6" lg="3"  class="mt-4 mx-auto">
           <div class="parent">
             <img :src="require(`~/assets/img/Group 1417.png`)" class="Group" alt="icon"/>
             <div class="overly">
@@ -37,7 +37,7 @@
           </div>
 
         </b-col>
-        <b-col cols="12" sm="10" md="6" lg="3"  class="mt-4">
+        <b-col cols="12" sm="10" md="6" lg="3"  class="mt-4 mx-auto">
           <div class="parent">
             <img :src="require(`~/assets/img/Group 1417.png`)" class="Group" alt="icon"/>
             <div class="overly">
@@ -53,7 +53,7 @@
           </div>
 
         </b-col>
-        <b-col cols="12" sm="10"  md="6" lg="3"  class="mt-4">
+        <b-col cols="12" sm="10"  md="6" lg="3"  class="mt-4 mx-auto">
           <div class="parent">
             <img :src="require(`~/assets/img/Group 1417.png`)" class="Group" alt="icon"/>
             <div class="overly">
