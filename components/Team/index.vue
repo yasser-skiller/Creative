@@ -131,13 +131,13 @@ export default {
     width: 75%;
   }
 }
-@media (max-width:768px) {
+@media (max-width:776px) {
   .parent .Group{
     width: 100%;
   }
   .overly{
     right: 60px;
-    bottom: 110px;
+    bottom: 90px;
     width: 75%;
   }
 }

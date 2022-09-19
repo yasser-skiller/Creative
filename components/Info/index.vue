@@ -42,4 +42,10 @@ export default {
   background-color: var(--Dark);
 }
 
+@media (max-width:567px) {
+  .GarkLine{
+  width: 150px;
+}
+}
+
 </style>

@@ -47,7 +47,7 @@
         </b-col>
         <b-col cols="10" sm="10" md="8"  lg="6" class="mb-4 py-2 px-4 animate__animated animate__fadeInLeft">
           <div class="parent">
-            <img :src="require(`~/assets/img/imgCourses.png`)" class="w-100" alt="icon"/>
+            <img :src="require(`~/assets/img/Rectangle 613.png`)" class="w-100" alt="icon"/>
             <div class="overly">
               <div class="d-flex bgRed my-3 mx-3 p-2 rounded_0" >
                 <img :src="require(`~/assets/icon/share.svg`)" class="icon" alt="icon"/>

@@ -4,7 +4,7 @@
         <b-col cols="12"   lg="6" class="bg  padding animate__animated animate__fadeInRight">
           <div class="d-flex mt-5">
             <img :src="require(`~/assets/icon/logo.svg`)" class="logo" alt="icon"/>
-            <h3 class="text_orange mr-4">تواصل معنا الان</h3>
+            <h3 class="text_orange mr_sm_0">تواصل معنا الان</h3>
           </div>
           <p class="mt-4 pr-5">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص</p>
           <h6 class="mt-5 font-weight-bold mb-4 pr-5"> بيانات التواصل : </h6>
@@ -126,6 +126,9 @@ export default {
   width: 100%;
   height: 600px;
 }
+.mr_sm_0{
+  margin-right: 1.5rem;
+}
 .mark{
   width: 25px;
   height: 25px;
@@ -154,5 +157,14 @@ export default {
 }
 .logo{
   width: 35px;
+}
+
+@media (max-width:444px) {
+  .mr_sm_0{
+   margin-right: .5rem;
+  }
+  .padding{
+   padding: 2.5rem 2rem;
+  }
 }
 </style>

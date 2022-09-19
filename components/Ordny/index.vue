@@ -5,11 +5,11 @@
         في ثلاث (3) خطوات رئيسية
       </p>
       <b-row align-h="center"  class="flex-wrap-reverse align-items-center ">
-        <b-col cols="9" sm="9" md="8" lg="7" class="position-relative animate__animated animate__fadeInRight">
+        <b-col cols="8" sm="9" md="8" lg="7" class="position-relative animate__animated animate__fadeInRight">
           <img :src="require(`~/assets/img/Group 14190.png`)" class="header_img" alt="icon"/>
         </b-col>
 
-        <b-col cols="3" sm="3" md="4" lg="5" class="parent animate__animated animate__fadeInLeft">
+        <b-col cols="4" sm="3" md="4" lg="5" class="parent animate__animated animate__fadeInLeft">
             <div >
               <p class="text_orange">دورة التأسيس</p>
               <p class="">هي دورة للتأسيس في القدرات ومعرفة أساسيات القدرات من الصفر للاحتراف</p>
@@ -65,6 +65,17 @@
 
   .parent{
     padding-right: 0;
+  }
+}
+
+@media (max-width:400px) {
+  .header_img{
+    height: 600px;
+  }
+
+  .parent{
+    padding-right: 0;
+    height: 700px;
   }
 }
 
