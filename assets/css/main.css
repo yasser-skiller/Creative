@@ -7,11 +7,14 @@
   --GrayColor:#F6F6F6;
   --DarkGray:#6B7377;
   --GrayFill:#676767;
+  --Gray:#D6D6D9;
   --DarkRedColor:#9A031E;
   --YellowColor:#FB8B24;
   --Dark:#0F4C5C;
   --DarkDark:#0d414f;
   --fillBlue:#CAD9DD;
+  --fillOrange:#FFD3B7;
+  --fillGrag:#DFE0EE;
 }
 
 html{
@@ -45,6 +48,9 @@ a{
 .text_dark{
   color: var(--Dark) !important;
 }
+.text_DarkRedColor{
+  color: var(--DarkRedColor);
+}
 .btn_orange{
   background-color: var(--OrangeColor);
   color: var(--WhiteColor);
@@ -53,6 +59,13 @@ a{
   background-color: var(--DakOrangeBlue);
   color: var(--WhiteColor);
   cursor: pointer !important;
+}
+.btn_gradient{
+  background-image: linear-gradient(to right,#0F4C5C,#FB8B24);
+  color: var(--WhiteColor);
+}
+.btn_gradient:hover{
+  background-image: linear-gradient(to right,#0d4350,#eb821f);
 }
 .btn_Dark{
   background-color: var(--Dark);
@@ -73,6 +86,14 @@ a{
   color: #fff;
   cursor: pointer !important;
 }
+.btn_sec{
+  background-color: var(--SecColor);
+  color: #fff;
+}
+
+.btn_sec:hover{
+  background-color: #460c30;
+}
 .btn{
   cursor: pointer !important;
   outline: none;
@@ -90,6 +111,15 @@ a{
 .bgGray{
   background-color: var(--GrayColor);
 }
+.bgGray0{
+  background-color: var(--Gray);
+}
+.bgfillOrange{
+  background-color: var(--fillOrange);
+}
+.bgfillGrag{
+  background-color: var(--fillGrag);
+}
 .font-16{
   font-size: 16px;
 }
@@ -100,13 +130,22 @@ a{
   border-radius: 25px;
 }
 .m-sec{
-  margin-top: 100px;
+  margin-top: 120px;
 }
-
+.mb-sec{
+  margin-bottom: 100px;
+}
 .big_text{
   font-size: 40px;
 }
 
 .fit-content{
   height: fit-content;
+}
+.fit_width{
+  width: fit-content;
+}
+
+.cursor_pointer{
+  cursor: pointer;
 }
