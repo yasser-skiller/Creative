@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27">
+  <g id="Group_2283" data-name="Group 2283" transform="translate(-1733 -1365.486)">
+    <rect id="Rectangle_Copy_15" data-name="Rectangle Copy 15" width="27" height="27" rx="5" transform="translate(1733 1365.486)" fill="#fb8b24"/>
+    <g id="lock" transform="translate(1742.005 1371.62)">
+      <path id="Shape" d="M8.106,13.343H1.2a1.2,1.2,0,0,1-1.2-1.2V6.6A1.2,1.2,0,0,1,1.2,5.4H1.58V3.072a3.071,3.071,0,1,1,6.142,0V5.4h.383A1.2,1.2,0,0,1,9.3,6.6v5.549A1.2,1.2,0,0,1,8.106,13.343ZM4.651,7.329a1.086,1.086,0,0,0-.612,1.984v1.494a.612.612,0,0,0,1.224,0V9.312a1.086,1.086,0,0,0-.612-1.984Zm0-6.254a2,2,0,0,0-2,2V5.4H6.648V3.072A2,2,0,0,0,4.652,1.075Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>
