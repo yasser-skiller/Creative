@@ -60,7 +60,7 @@
           </div>
 
           <div class="items" >
-            <div class="item" v-for="(item, index) in All_Modfiy" :key="index">
+            <div class="item" v-for="(item, index) in All_Modfiy" :key="index" v-on:click="CheckRevsionQuizItem(index)">
               <span class="font-weight-bold">({{index+StartNum+1}})</span>
               <div class="mr-auto">
                 <span v-if="item.Answered === true" class="span Answered ml-2">سؤال محلول</span>
@@ -185,7 +185,10 @@ import Loading from "@/components/Loading";
           }
         });
 
-        this.All_Modfiy = this.All.slice(this.StartNum,this.FinishNum)
+        this.All_Modfiy = this.All.slice(this.StartNum,this.FinishNum);
+        if(this.FinishNum > this.Quiz_data.length){
+          this.FinishNum = this.Quiz_data.length
+        }
       },
       NextGroup(){
         if(this.FinishNum < this.Quiz_data.length){
@@ -235,6 +238,10 @@ import Loading from "@/components/Loading";
         localStorage.removeItem(`Quiz_serial${this.$route.params.slug}`);
         this.$router.push({path:`/QuizRevsion/${this.$route.params.slug}`})
       },
+      CheckRevsionQuizItem(Quiz_serial){
+        localStorage.setItem(`Quiz_serial${this.$route.params.slug}`, JSON.stringify(Quiz_serial));
+        this.$router.push({path:`/QuizRevsion/${this.$route.params.slug}`})
+      },
       CheckPassQuiz(){
         if(this.Pass_Quiz.length > 0){
           this.$router.push({path:`/CheckPassQuiz/${this.$route.params.slug}`})
@@ -266,16 +273,45 @@ import Loading from "@/components/Loading";
           .then(response => response.text())
           .then(res => {
             console.log('finisf',JSON.parse(res))
-            this.status_code = JSON.parse(res).status;
-            this.Result = [JSON.parse(res).results];
+            localStorage.setItem(`Result_${this.$route.params.slug}`, res);
+            this.$router.push({path:`/TestResults/${this.$route.params.slug}`})
           })
           .catch(error => console.log('error', error));
 
 
       },
 
+      SendData() {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer${config.token}`);
+        myHeaders.append("Content-Type", "application/json");
+
+        if(this.Answered.length > 0){
+          for (var i=0; i<this.Answered.length; i++){
+            this.Answered_obj[this.Answered[i].id] = {answered: `${this.Answered[i].answer}`} ;
+          }
+        }
+
+        var raw = JSON.stringify({"id":this.$route.params.slug, "answered" : this.Answered_obj});
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+        fetch(config.apiUrl+"wp-json/learnpress/v1/quiz/finish", requestOptions)
+          .then(response => response.text())
+          .then(res => {
+            localStorage.setItem(`page_${this.$route.params.slug}`, 'new');
+            localStorage.setItem(`Result_${this.$route.params.slug}`, res);
+            this.$router.push({path:`/TestResults/${this.$route.params.slug}`})
+          })
+          .catch(error => console.log('error', error));
     },
-    watch: {
+  },
+  watch: {
       Seconds: {
         handler(value) {
           if (value > 0) {
@@ -291,16 +327,17 @@ import Loading from "@/components/Loading";
                 this.Quiz_duration = this.Minute + ':' + this.Remseconds
               }
               localStorage.setItem(`Quiz_duration${this.$route.params.slug}`, JSON.stringify((this.Minute*60)+this.Remseconds));
+              if(this.Minute === 0 && this.Remseconds === 1){
+                this.SendData();
+              }
             }, 1000);
-            if(this.Minute === 0 && this.Remseconds === 1){
-              this.$router.push({path:`/Result/${this.$route.params.slug}`})
-            }
+
           }
         },
         immediate: true,
       },
 
-    }
+  }
 
   }
 </script>

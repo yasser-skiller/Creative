@@ -69,7 +69,8 @@
             <div
               v-for="option in Quiz_data[Quiz_serial].options"
               :key="option.uid"
-              :class="selected === option.value ? `optionItem selected` : `optionItem`"
+              :id="option.value"
+              :class="`optionItem class${option.value}`"
               v-on:click="Save(Quiz_data[Quiz_serial].id, option.value, Quiz_serial)"
             >
               <label
@@ -91,8 +92,8 @@
 
             <div class="d-flex justify-content-center">
               <b-button size="sm" class="btn btn_light my-2 py-2 px-5 ml-4 rounded_0" type="button" v-if="Quiz_serial > 0 " v-on:click="Previous"> السابق</b-button>
-              <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5 rounded_0 " type="button" v-if="Quiz_serial !== Quiz_data.length-1 " v-on:click="Next"> التالي</b-button>
-              <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5 rounded_0 " type="button" v-if="Quiz_serial === Quiz_data.length-1 " v-on:click="Finish_Quiz">إنهاء الاختبار</b-button>
+              <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5  rounded_0 " type="button" v-if="Quiz_serial !== Quiz_data.length-1 " v-on:click="Next"> التالي</b-button>
+              <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5 rounded_0 " type="button" v-if="Quiz_serial === Quiz_data.length-1 " v-on:click="Finish_Quiz"> المراجعة</b-button>
             </div>
 
           </b-col>
@@ -142,7 +143,7 @@
       <div v-else class="d-flex justify-content-center align-items-center spinner_loading">
         <Loading/>
       </div>
-    </b-container>
+  </b-container>
 
   </div>
 
@@ -194,43 +195,77 @@ import AppNav from '@/components/AppNav';
         this.Pass_Quiz = JSON.parse(localStorage.getItem(`Pass_Quiz_${this.$route.params.slug}`));
         this.Favorite_Quiz = JSON.parse(localStorage.getItem(`Favorite_Quiz_${this.$route.params.slug}`));
         this.Answered = JSON.parse(localStorage.getItem(`Answered_${this.$route.params.slug}`));
-        this.Quiz_data = JSON.parse(localStorage.getItem(`Pass_Quiz_${this.$route.params.slug}`));
+        this.Result = JSON.parse(localStorage.getItem(`Result_${this.$route.params.slug}`));
         this.Seconds = JSON.parse(localStorage.getItem(`Quiz_duration${this.$route.params.slug}`));
         console.log("localStorQuiz_serial", JSON.parse(localStorage.getItem (`Quiz_serial${this.$route.params.slug}`)))
-        if(JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`)) !== null){
-          this.Quiz_serial = JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`))
-        }
-        console.log("localStorage_Answered",this.Answered)
+        // if(JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`)) !== null){
+        //   this.Quiz_serial = JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`))
+        // }
+
+        JSON.parse(localStorage.getItem(`Quiz_data_${this.$route.params.slug}`)).forEach(element => {
+          this.Answered.forEach(ele => {
+            if(element.id === ele.id){
+             this.Quiz_data.push(element)
+            }
+          });
+
+        });
+
+        console.log('locQuiz_data_', this.Quiz_data)
+
       },
       Compare(){
-        if(this.Answered.length > 0){
+        setTimeout(() => {
+          if(this.Answered.length > 0){
           this.Answered.forEach(element => {
             if(element.my_Quiz_serial === this.Quiz_serial){
-              this.selected = element.answer
+              if(this.Result.results.answered[element.id].correct === true){
+                // this.selected = element.answer
+                document.querySelector(`.class${element.answer}`).classList.add('selected')
+              }
+              if(this.Result.results.answered[element.id].correct === false){
+                this.Result.results.answered[element.id].options.forEach(ele => {
+                  if(ele.is_true === 'yes'){
+                    document.querySelector(`.class${ele.value}`).classList.add('selected')
+                    // this.selected = ele.value
+                  }
+                });
+                document.querySelector(`.class${this.Result.results.answered[element.id].answered.answered}`).classList.add('Wrongselected')
+
+              }
             }
           });
         }
 
-        //Favorite
-        this.HeartCase = false;
-        this.Favorite_Quiz.forEach(element => {
-          if(element.id === this.Quiz_data[this.Quiz_serial].id){
-            this.HeartCase = true;
-          }
-        });
+        }, 500);
+      // if(this.Answered.length > 0){
+      //   this.Answered.forEach(element => {
+      //     if(element.my_Quiz_serial === this.Quiz_serial){
+      //       this.selected = element.answer
+      //     }
+      //   });
+      // }
 
-        //Pass
-        this.PassCase = false;
-        this.Pass_Quiz.forEach(element => {
-          if(element.id === this.Quiz_data[this.Quiz_serial].id){
-            this.PassCase = true;
-          }
-        });
+      //Favorite
+      this.HeartCase = false;
+      this.Favorite_Quiz.forEach(element => {
+        if(element.id === this.Quiz_data[this.Quiz_serial].id){
+          this.HeartCase = true;
+        }
+      });
 
-        //FoldersListCheckbox
-        document.querySelectorAll('.FoldersListCheckbox input').forEach(element => {
-          element.checked = false
-        });
+      //Pass
+      this.PassCase = false;
+      this.Pass_Quiz.forEach(element => {
+        if(element.id === this.Quiz_data[this.Quiz_serial].id){
+          this.PassCase = true;
+        }
+      });
+
+      //FoldersListCheckbox
+      document.querySelectorAll('.FoldersListCheckbox input').forEach(element => {
+        element.checked = false
+      });
 
     },
     Save(id, option_value, my_Quiz_serial){
@@ -271,11 +306,11 @@ import AppNav from '@/components/AppNav';
     },
     Finish_Quiz(){
       console.log("localStorage_AnsweredvFinish_Quiz",this.Answered)
-      localStorage.setItem(`Answered_${this.$route.params.slug}`, JSON.stringify(this.Answered));
-      localStorage.setItem(`Quiz_duration${this.$route.params.slug}`, JSON.stringify((this.Minute*60)+this.Remseconds));
-      localStorage.setItem(`Favorite_Quiz_${this.$route.params.slug}`, JSON.stringify(this.Favorite_Quiz));
-      localStorage.setItem(`Pass_Quiz_${this.$route.params.slug}`, JSON.stringify(this.Pass_Quiz));
-      this.$router.push({path:`/Result/${this.$route.params.slug}`});
+      // localStorage.setItem(`Answered_${this.$route.params.slug}`, JSON.stringify(this.Answered));
+      // localStorage.setItem(`Quiz_duration${this.$route.params.slug}`, JSON.stringify((this.Minute*60)+this.Remseconds));
+      // localStorage.setItem(`Favorite_Quiz_${this.$route.params.slug}`, JSON.stringify(this.Favorite_Quiz));
+      // localStorage.setItem(`Pass_Quiz_${this.$route.params.slug}`, JSON.stringify(this.Pass_Quiz));
+      this.$router.push({path:`/ResultsRevsion/${this.$route.params.slug}`});
     },
     Favorite(item){
       this.HeartCase = !this.HeartCase;
@@ -333,6 +368,7 @@ import AppNav from '@/components/AppNav';
         }
       });
     },
+
     SendData() {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer${config.token}`);
@@ -430,8 +466,8 @@ import AppNav from '@/components/AppNav';
   cursor: pointer;
  }
  .selected{
-  color: var(--YellowColor);
-  border-color: var(--YellowColor);
+  color: lawngreen;
+  border-color: lawngreen;
 
  }
 
@@ -504,4 +540,8 @@ import AppNav from '@/components/AppNav';
   justify-content: space-between;
   height: 100%;
 }
+.Wrongselected{
+  color: crimson;
+  border-color: crimson;
+ }
 </style>

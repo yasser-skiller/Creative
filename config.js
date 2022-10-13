@@ -1,5 +1,5 @@
 export default {
-  apiUrl:'https://droos.alhutacademy.com/',
-  token :`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZHJvb3MuYWxodXRhY2FkZW15LmNvbSIsImlhdCI6MTY2NDcxNDYyNywibmJmIjoxNjY0NzE0NjI3LCJleHAiOjE2NjUzMTk0MjcsImRhdGEiOnsidXNlciI6eyJpZCI6IjE5In19fQ.5cQk8OtMi1xQnqWmwjHqavRPjd_Fjq9wsKUcvueF014`,
+  apiUrl:'https://system.elmonsf.com/',
+  token :`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc3lzdGVtLmVsbW9uc2YuY29tIiwiaWF0IjoxNjY1MDc1OTQ2LCJuYmYiOjE2NjUwNzU5NDYsImV4cCI6MTY2NTY4MDc0NiwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMjkifX19.aithJH1iwEkfse9rX8MZpoOkLWTwklIpAM4iVsJgDtE`,
 }
 

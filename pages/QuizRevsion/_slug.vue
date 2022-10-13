@@ -87,7 +87,7 @@
               </b-form-radio>
             </div>
 
-            <div class="mt-3 ">Selected: <strong>{{ selected }}</strong></div>
+            <!-- <div class="mt-3 ">Selected: <strong>{{ selected }}</strong></div> -->
 
             <div class="d-flex justify-content-center">
               <b-button size="sm" class="btn btn_light my-2 py-2 px-5 ml-4 rounded_0" type="button" v-if="Quiz_serial > 0 " v-on:click="Previous"> السابق</b-button>
@@ -335,8 +335,37 @@ import AppNav from '@/components/AppNav';
       });
     },
 
+    SendData() {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer${config.token}`);
+        myHeaders.append("Content-Type", "application/json");
+
+        if(this.Answered.length > 0){
+          for (var i=0; i<this.Answered.length; i++){
+            this.Answered_obj[this.Answered[i].id] = {answered: `${this.Answered[i].answer}`} ;
+          }
+        }
+
+        var raw = JSON.stringify({"id":this.$route.params.slug, "answered" : this.Answered_obj});
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+        fetch(config.apiUrl+"wp-json/learnpress/v1/quiz/finish", requestOptions)
+          .then(response => response.text())
+          .then(res => {
+            localStorage.setItem(`page_${this.$route.params.slug}`, 'new');
+            localStorage.setItem(`Result_${this.$route.params.slug}`, res);
+            this.$router.push({path:`/TestResults/${this.$route.params.slug}`})
+          })
+          .catch(error => console.log('error', error));
     },
-     watch: {
+  },
+  watch: {
       Seconds: {
         handler(value) {
           if (value > 0) {
@@ -352,16 +381,17 @@ import AppNav from '@/components/AppNav';
                 this.Quiz_duration = this.Minute + ':' + this.Remseconds
               }
               localStorage.setItem(`Quiz_duration${this.$route.params.slug}`, JSON.stringify((this.Minute*60)+this.Remseconds));
+              if(this.Minute === 0 && this.Remseconds === 1){
+                this.SendData();
+              }
             }, 1000);
-            if(this.Minute === 0 && this.Remseconds === 1){
-              this.$router.push({path:`/Result/${this.$route.params.slug}`})
-            }
+
           }
         },
         immediate: true,
       },
 
-    }
+  }
 
   }
 </script>

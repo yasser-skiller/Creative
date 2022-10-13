@@ -15,6 +15,10 @@
   --fillBlue:#CAD9DD;
   --fillOrange:#FFD3B7;
   --fillGrag:#DFE0EE;
+  --fillGreen:#F3FFFD;
+  --fillRed:#FFE0DD;
+  --BBB:#37B6CC;
+
 }
 
 html{
@@ -39,6 +43,22 @@ a{
 
 
 /* class */
+.bgfillRed{
+  background-color: var(--fillRed);
+}
+.bgfillGreen{
+  background-color: var(--fillGreen);
+
+}
+.bg_BBB{
+  background-color: var(--BBB);
+}
+.bg_liner{
+  background-image: linear-gradient(to right,#0d4350,#eb821f);
+}
+.bg_linerFail{
+  background-image: linear-gradient( #900000 , #de606f) !important;
+}
 .text_orange{
   color: var(--OrangeColor);
 }
