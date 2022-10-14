@@ -1,4 +1,6 @@
 :root {
+  --DarkBlueColor:#006490;
+  --DaknessBlue:#055375;
   --BlackColor:#000;
   --OrangeColor:#E36414;
   --DakOrangeBlue:#d65c11;
@@ -18,6 +20,10 @@
   --fillGreen:#F3FFFD;
   --fillRed:#FFE0DD;
   --BBB:#37B6CC;
+  --BlueOldColor: #7aa3d1;
+  --DarkBlueOldColor: #07669f;
+  --DarkBlueSecColor:#4774AC;
+  --GraySecColor: #707070;
 
 }
 
@@ -168,4 +174,52 @@ a{
 
 .cursor_pointer{
   cursor: pointer;
+}
+
+
+.bg-DarkBlueOldColor{
+  background-color: var(--DarkBlueOldColor);
+  color: #fff;
+}
+.DarkBlueSecColor{
+  color: var(--DarkBlueSecColor);
+}
+.bg-DarkBlueSecColor{
+  background-color: var(--DarkBlueSecColor);
+}
+.bg-BlueOldColor{
+  background-color: var(--BlueOldColor);
+}
+.sp_style{
+  min-height: 65vh !important;
+  flex-wrap: wrap;
+}
+@media (max-width:992px) {
+  .sp_style{
+    flex-wrap: wrap-reverse !important;
+  }
+}
+.border_left{
+  border-left: 4px solid var(--DarkBlueColor) !important;
+  height: 65vh !important;
+}
+@media (max-width:992px) {
+  .border_left{
+    border-left: none !important;
+    height: fit-content !important;
+  }
+}
+
+.radioParent label,.custom-control-label{
+  width: 15px !important;
+}
+
+/* modal */
+.modal-header .close{
+  display: none !important;
+}
+
+
+.modal{
+  top: 75px !important;
 }

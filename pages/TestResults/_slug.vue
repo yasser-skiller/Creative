@@ -11,25 +11,25 @@
             <h5 class="text-center my-4">تقرير نتيجة الامتحان الخاص بك</h5>
 
             <div
-             :class="`${(Result.results.user_mark/Result.results.mark)*100 > 50  ? 'bg_liner' : 'bg_linerFail'} rounded text-center text-white py-2 px-5 fit_width mx-auto` "
+             :class="`${(Result.results.user_mark/Result.results.mark)*100 >= 50  ? 'bg_liner' : 'bg_linerFail'} rounded text-center text-white py-2 px-5 fit_width mx-auto` "
             >
-              <h5 class="my-2"  v-if="(Result.results.user_mark/Result.results.mark)*100 > 50">ناجح</h5>
+              <h5 class="my-2"  v-if="(Result.results.user_mark/Result.results.mark)*100 >= 50">ناجح</h5>
               <h5 class="my-2" v-else>راسب</h5>
               <small class=" my-1">بنسبة</small>
-              <h5 class="font-weight-bold">{{(Result.results.user_mark/Result.results.mark)*100}}%</h5>
+              <h5 class="font-weight-bold">{{Math.round((Result.results.user_mark/Result.results.mark)*100)}}%</h5>
             </div>
 
           </b-col>
           <b-col cols="11" sm="10"  md="8" lg="6" class="">
             <div class="rounded_1 my-4 font-16 px-4 py-3 bg_gray d-flex justify-content-between align-items-center">
               <p class="text_blue my-0">درجة الامتحان</p>
-              <p v-if="(Result.results.user_mark/Result.results.mark)*100 > 50" class="bgfillGreen text_green my-0 p-2 px-4 rounded">{{(Result.results.user_mark/Result.results.mark)*100}}%</p>
-              <p class="bgfillRed text_red my-0 p-2 px-4 rounded">{{(Result.results.user_mark/Result.results.mark)*100}}%</p>
+              <p v-if="(Result.results.user_mark/Result.results.mark)*100 >= 50" class="bgfillGreen text_green my-0 p-2 px-4 rounded">{{Math.round((Result.results.user_mark/Result.results.mark)*100)}}%</p>
+              <p v-else class="bgfillRed text_red my-0 p-2 px-4 rounded">{{Math.round((Result.results.user_mark/Result.results.mark)*100)}}%</p>
             </div>
             <div class="rounded_1 my-4 font-16 px-4 py-3 bg_gray d-flex justify-content-between align-items-center">
               <p class="text_blue my-0"> الحالة</p>
-              <p v-if="(Result.results.user_mark/Result.results.mark)*100 > 50" class="bgfillGreen text_green my-0 p-2 px-4 rounded">ناجح</p>
-              <p class="bgfillRed text_red my-0 p-2 px-4 rounded">راسب</p>
+              <p v-if="(Result.results.user_mark/Result.results.mark)*100 >= 50" class="bgfillGreen text_green my-0 p-2 px-4 rounded">ناجح</p>
+              <p v-else class="bgfillRed text_red my-0 p-2 px-4 rounded">راسب</p>
             </div>
             <div class="rounded_1 my-4 font-16 px-4 py-3 bg_gray d-flex justify-content-between align-items-center">
               <p class="text_blue my-0"> عدد الأسئلة التي تم اجابتها</p>
@@ -50,11 +50,10 @@
           </b-col>
 
           <b-button
-           v-if="old !== 'old'"
            v-on:click="$router.push({path:`/ResultsRevsion/${$route.params.slug}`})"
            size="sm" class="btn btn_gradient my-2 py-3 px-5 rounded_0 mx-auto"
            type="button"
-          > مراجعة الأخطاء</b-button>
+          > مراجعة </b-button>
 
 
         </b-row>
@@ -82,11 +81,9 @@ import Loading from "@/components/Loading";
         Minute:0,
         Seconds:0,
         Remseconds:0,
-        old :''
       }
     },
     mounted() {
-      this.old = localStorage.getItem(`page_${this.$route.params.slug}`)
       this.Result = JSON.parse(localStorage.getItem(`Result_${this.$route.params.slug}`));
       console.log("this.Result",this.Result.results)
     },

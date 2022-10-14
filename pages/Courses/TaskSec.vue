@@ -11,7 +11,22 @@
         هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص
       </p>
 
-      <b-button v-on:click = "$router.push({path:`/Quiz/${CurentLessons_data.quiz_id}`})" class="btn btn_orange rounded_0 px-5 py-3 "> ابدا الامتحان الان</b-button>
+      <b-button v-on:click = "ChangePath(CurentLessons_data.quiz_id)" v-b-modal.modal-Quiz class="btn btn_orange rounded_0 px-5 py-3 "> ابدا الامتحان الان</b-button>
+
+      <b-modal id="modal-Quiz" title="اختر نظام الاختبار" hide-footer>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div v-on:click = "ChosseNewPath()" class="bgGreen rounded block m-2">
+            <p class="my-4 text-white font-16">الأختبار</p>
+            <img :src="require(`~/assets/icon/lateww.svg`)" alt="img" class="clock_img"/>
+          </div>
+
+          <div v-on:click = "ChosseOldPath()" class="bluebg  rounded block m-2">
+            <p class="my-4 text-white font-16">اختبار بنظام محاكي</p>
+            <img :src="require(`~/assets/icon/lateww.svg`)" alt="img" class="clock_img"/>
+          </div>
+        </div>
+
+      </b-modal>
 
     </div>
     <div v-else>
@@ -23,7 +38,26 @@
 
 <script>
 export default {
-props:['CurentLessons_data']
+props:['CurentLessons_data'],
+data() {
+    return {
+      path_id : '',
+    }
+  },
+  methods:{
+  ChangePath(id){
+    this.path_id = id;
+    if(screen.width <= 992){
+      this.$router.push({path:`/Quiz/${id}`})
+    }
+  },
+  ChosseNewPath(){
+    this.$router.push({path:`/Quiz/${this.path_id}`})
+  },
+  ChosseOldPath(){
+    this.$router.push({path:`/OldStyleQuiz/${this.path_id}`})
+  },
+}
 }
 </script>
 
@@ -35,4 +69,23 @@ props:['CurentLessons_data']
   .rig{
     border-left: 1px solid #8E8F9B;
   }
+  .block{
+  width: 170px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.bluebg{
+  background-color: #036B98;
+}
+.bgGreen{
+  background-color: #039A7B;
+}
+.clock_img{
+  width: 25px;
+  margin: auto;
+}
 </style>

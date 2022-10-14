@@ -2,16 +2,18 @@
   <div>
       <AppNav/>
     <b-container class="" >
-      <div v-if="this.Answered.length > 0  ">
+      <div v-if="this.Quiz_data.length > 0  ">
         <div class="mb-sec">.</div>
-        <b-row  align-h="center"  class="flex-wrap  justify-content-between align-items-center bg-DarkBlueOldColor p-1">
+        <b-row  align-h="center"  class="flex-wrap  justify-content-between align-items-center  p-1">
           <b-col cols="11" sm="10"  md="8" lg="6" class="">
             <p class="m-0 font-weight-bold text_orange"> تسليم الامتحان</p>
           </b-col>
           <b-col cols="11" sm="10"  md="8" lg="6" class="d-flex flex-column align-items-end">
-            <p class="m-0 f-12">
-              <img :src="require(`~/assets/icon/clock5.svg`)" alt="img" class="clock_img"/>
-            الوقت المتبقي : {{Quiz_duration}}</p>
+            <div class="d-flex align-items-center mr-auto fit_width ">
+              <img :src="require(`~/assets/icon/clock5.svg`)" class="" alt="icon"/>
+              <span class="mx-1"> توقيت:</span>
+              <span class="py-1 px-2 font-16 time rounded_0  text_DarkRedColor">{{Quiz_duration}}</span>
+            </div>
           </b-col>
         </b-row>
 
@@ -60,7 +62,7 @@
           </div>
 
           <div class="items" >
-            <div class="item" v-for="(item, index) in All_Modfiy" :key="index" v-on:click="CheckRevsionQuizItem(index)">
+            <div class="item cursor_pointer" v-for="(item, index) in All_Modfiy" :key="index" v-on:click="CheckRevsionQuizItem(index)">
               <span class="font-weight-bold">({{index+StartNum+1}})</span>
               <div class="mr-auto">
                 <span v-if="item.Answered === true" class="span Answered ml-2">سؤال محلول</span>
@@ -140,10 +142,10 @@ import Loading from "@/components/Loading";
       }
     },
     mounted() {
-      console.log('localStorage.Pass_Quiz_',JSON.parse(localStorage.getItem(`Pass_Quiz_${this.$route.params.slug}`)))
-      console.log('localStorage.Quiz_duration',JSON.parse(localStorage.getItem(`Quiz_duration${this.$route.params.slug}`)))
-      console.log('localStorage.Answered_',JSON.parse(localStorage.getItem(`Answered_${this.$route.params.slug}`)))
-      console.log('localStorage.Quiz_data_',JSON.parse(localStorage.getItem(`Quiz_data_${this.$route.params.slug}`)))
+      // console.log('localStorage.Pass_Quiz_',JSON.parse(localStorage.getItem(`Pass_Quiz_${this.$route.params.slug}`)))
+      // console.log('localStorage.Quiz_duration',JSON.parse(localStorage.getItem(`Quiz_duration${this.$route.params.slug}`)))
+      // console.log('localStorage.Answered_',JSON.parse(localStorage.getItem(`Answered_${this.$route.params.slug}`)))
+      // console.log('localStorage.Quiz_data_',JSON.parse(localStorage.getItem(`Quiz_data_${this.$route.params.slug}`)))
       this.Answered = JSON.parse(localStorage.getItem(`Answered_${this.$route.params.slug}`));
       this.Favorite_Quiz = JSON.parse(localStorage.getItem(`Favorite_Quiz_${this.$route.params.slug}`));
       this.Quiz_data = JSON.parse(localStorage.getItem(`Quiz_data_${this.$route.params.slug}`));
@@ -304,7 +306,6 @@ import Loading from "@/components/Loading";
         fetch(config.apiUrl+"wp-json/learnpress/v1/quiz/finish", requestOptions)
           .then(response => response.text())
           .then(res => {
-            localStorage.setItem(`page_${this.$route.params.slug}`, 'new');
             localStorage.setItem(`Result_${this.$route.params.slug}`, res);
             this.$router.push({path:`/TestResults/${this.$route.params.slug}`})
           })

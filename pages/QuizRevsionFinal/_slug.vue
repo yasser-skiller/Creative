@@ -32,7 +32,8 @@
             <div
               v-for="option in Quiz_data[Quiz_serial].options"
               :key="option.uid"
-              :class="selected === option.value ? `optionItem selected` : `optionItem`"
+              :id="option.value"
+              :class="`optionItem class${option.value}`"
               v-on:click="Save(Quiz_data[Quiz_serial].id, option.value, Quiz_serial)"
             >
               <label
@@ -54,7 +55,7 @@
             <div class="d-flex flex-wrap justify-content-center">
               <b-button size="sm" class="btn btn_light my-2 py-2 px-5 ml-4 rounded_0" type="button" v-if="Quiz_serial > 0 " v-on:click="Previous"> السابق</b-button>
               <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5 rounded_0 mx-5" type="button" v-if="Quiz_serial !== Quiz_data.length-1 " v-on:click="Next"> التالي</b-button>
-              <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5 rounded_0 mx-auto" type="button"  v-on:click="Finish_Quiz">إنهاء الاختبار</b-button>
+              <b-button size="sm" class="btn btn_gradient my-2 py-2 px-5 rounded_0 mx-auto" type="button" v-on:click="Finish_Quiz">إنهاء الاختبار</b-button>
             </div>
 
           </b-col>
@@ -102,6 +103,7 @@
 
 </template>
 
+
 <script>
 import Loading from "@/components/Loading";
 import AppNav from '@/components/AppNav';
@@ -116,21 +118,18 @@ import AddFoldersList from "@/components/AddFoldersList";
     data() {
       return {
         Quiz_data: [],
+        Answered_obj : {},
         Answered:[],
         Favorite_Quiz:[],
         Pass_Quiz:[],
         selected: '',
         status_code: '',
         Quiz_serial:0,
-        Quiz_duration:0,
-        Minute:0,
-        Seconds:0,
-        Remseconds:0,
         HeartCase: false,
         Favorite_Quiz :[],
         PassCase:false,
         Pass_Quiz :[],
-
+        Result :[],
       }
     },
     mounted() {
@@ -141,30 +140,49 @@ import AddFoldersList from "@/components/AddFoldersList";
     },
     methods: {
       CurrentState(){
-        // console.log('localStorage.Pass_Quiz_',JSON.parse(localStorage.getItem(`Pass_Quiz_${this.$route.params.slug}`)))
-      // console.log('localStorage.Quiz_duration',JSON.parse(localStorage.getItem(`Quiz_duration${this.$route.params.slug}`)))
-      // console.log('localStorage.Answered_',JSON.parse(localStorage.getItem(`Answered_${this.$route.params.slug}`)))
-      // console.log('localStorage.Quiz_data_',JSON.parse(localStorage.getItem(`Quiz_data_${this.$route.params.slug}`)))
         this.Pass_Quiz = JSON.parse(localStorage.getItem(`Pass_Quiz_${this.$route.params.slug}`));
         this.Favorite_Quiz = JSON.parse(localStorage.getItem(`Favorite_Quiz_${this.$route.params.slug}`));
         this.Answered = JSON.parse(localStorage.getItem(`Answered_${this.$route.params.slug}`));
         this.Quiz_data = JSON.parse(localStorage.getItem(`Quiz_data_${this.$route.params.slug}`));
-        this.Seconds = JSON.parse(localStorage.getItem(`Quiz_duration${this.$route.params.slug}`));
-        // console.log("localStorQuiz_serial", JSON.parse(localStorage.getItem (`Quiz_serial${this.$route.params.slug}`)))
-        // if(JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`)) !== null){
-        //   this.Quiz_serial = JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`))
-        // }
-        // console.log("localStorage_Answered",this.Answered)
+        this.Result = JSON.parse(localStorage.getItem(`Result_${this.$route.params.slug}`));
+        if(JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`)) !== null){
+          this.Quiz_serial = JSON.parse(localStorage.getItem(`Quiz_serial${this.$route.params.slug}`))
+        }
+        console.log("localStorage_Answered",this.Answered)
       },
       Compare(){
-        if(this.Answered.length > 0){
+        setTimeout(() => {
+          if(this.Answered.length > 0){
           this.Answered.forEach(element => {
-            if(element.id === this.Quiz_data[this.Quiz_serial].id){
-              this.selected = element.answer
+            if(element.my_Quiz_serial === this.Quiz_serial){
+              if(this.Result.results.answered[element.id].correct === true){
+                // this.selected = element.answer
+                document.querySelector(`.class${element.answer}`).classList.add('selected')
+              }
+              if(this.Result.results.answered[element.id].correct === false){
+                this.Result.results.answered[element.id].options.forEach(ele => {
+                  if(ele.is_true === 'yes'){
+                    document.querySelector(`.class${ele.value}`).classList.add('selected')
+                    // this.selected = ele.value
+                  }
+                });
+                document.querySelector(`.class${this.Result.results.answered[element.id].answered.answered}`).classList.add('Wrongselected')
+
+              }
+            }else{
+              this.Result.results.answered[this.Quiz_data[this.Quiz_serial].id].options.forEach(ele => {
+                if(ele.is_true === 'yes'){
+                  document.querySelector(`.class${ele.value}`).classList.add('selected')
+                }
+                if(ele.value === this.Result.results.answered[this.Quiz_data[this.Quiz_serial].id].answered.answered){
+                  document.querySelector(`.class${ele.value}`).classList.add('Wrongselected')
+                }
+              });
             }
           });
         }
 
+        }, 500);
         //Favorite
         this.HeartCase = false;
         this.Favorite_Quiz.forEach(element => {
@@ -187,22 +205,7 @@ import AddFoldersList from "@/components/AddFoldersList";
         });
 
     },
-    Save(id, option_value, my_Quiz_serial){
-      if(this.Answered.length > 0){
-        this.Answered.forEach(element => {
-          if(element){
-            if(element.id === id){
-              this.Answered =  this.Answered.filter(e => e !== element);
-            }
-          }
-        });
-        this.Answered.push({'id':id,'answer':option_value,'my_Quiz_serial':my_Quiz_serial});
-      }if(this.Answered.length === 0){
-        this.Answered.push({'id':id,'answer':option_value,'my_Quiz_serial':my_Quiz_serial});
-      }
 
-
-    },
     Next(){
       this.Quiz_serial++ ;
       this.Compare();
@@ -224,12 +227,10 @@ import AddFoldersList from "@/components/AddFoldersList";
       this.Compare();
     },
     Finish_Quiz(){
-      console.log("localStorage_AnsweredvFinish_Quiz",this.Answered)
       localStorage.setItem(`Answered_${this.$route.params.slug}`, JSON.stringify(this.Answered));
-      localStorage.setItem(`Quiz_duration${this.$route.params.slug}`, JSON.stringify((this.Minute*60)+this.Remseconds));
       localStorage.setItem(`Favorite_Quiz_${this.$route.params.slug}`, JSON.stringify(this.Favorite_Quiz));
       localStorage.setItem(`Pass_Quiz_${this.$route.params.slug}`, JSON.stringify(this.Pass_Quiz));
-      this.$router.push({path:`/Result/${this.$route.params.slug}`});
+      this.$router.push({path:`/ResultsRevsion/${this.$route.params.slug}`});
     },
     Favorite(item){
       this.HeartCase = !this.HeartCase;
@@ -243,62 +244,9 @@ import AddFoldersList from "@/components/AddFoldersList";
       console.log("Favorite_Quiz",this.Favorite_Quiz)
     },
 
-    SendData() {
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer${config.token}`);
-        myHeaders.append("Content-Type", "application/json");
 
-        if(this.Answered.length > 0){
-          for (var i=0; i<this.Answered.length; i++){
-            this.Answered_obj[this.Answered[i].id] = {answered: `${this.Answered[i].answer}`} ;
-          }
-        }
-
-        var raw = JSON.stringify({"id":this.$route.params.slug, "answered" : this.Answered_obj});
-
-        var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: raw,
-          redirect: 'follow'
-        };
-
-        fetch(config.apiUrl+"wp-json/learnpress/v1/quiz/finish", requestOptions)
-          .then(response => response.text())
-          .then(res => {
-            localStorage.setItem(`Result_${this.$route.params.slug}`, res);
-            this.$router.push({path:`/TestResults/${this.$route.params.slug}`})
-          })
-          .catch(error => console.log('error', error));
-    },
   },
-  watch: {
-      Seconds: {
-        handler(value) {
-          if (value > 0) {
-            setTimeout(() => {
-              this.Minute = Math.floor(this.Seconds / 60)
-              this.Remseconds = this.Seconds % 60
-              this.Seconds--;
-              if(this.Seconds < 9){
-                this.Quiz_duration = this.Minute + ':0' + this.Remseconds
-              }if(this.Minute < 9){
-                this.Quiz_duration = "0"+this.Minute + ':' + this.Remseconds
-              }else{
-                this.Quiz_duration = this.Minute + ':' + this.Remseconds
-              }
-              localStorage.setItem(`Quiz_duration${this.$route.params.slug}`, JSON.stringify((this.Minute*60)+this.Remseconds));
-              if(this.Minute === 0 && this.Remseconds === 1){
-                this.SendData();
-              }
-            }, 1000);
 
-          }
-        },
-        immediate: true,
-      },
-
-  }
 
   }
 </script>
@@ -366,4 +314,15 @@ import AddFoldersList from "@/components/AddFoldersList";
   justify-content: space-between;
   height: 100%;
 }
+
+.selected{
+  color: lawngreen;
+  border-color: lawngreen;
+
+ }
+.Wrongselected{
+  color: crimson;
+  border-color: crimson;
+ }
+
 </style>
