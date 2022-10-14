@@ -34,7 +34,7 @@
 
     <b-modal id="modal-EditList" title="تعديل اسم المجلد" hide-footer>
       <b-form-input v-model="EditeListName" class="my-4" placeholder="اكتب اسم المجلد"></b-form-input>
-      <b-button size="sm" class="btn btn_Green my-2 py-2 px-r px-l rounded_0" type="button"  v-on:click="EditFolderListCheckbox(EditFolderListCheckboxItem)"> تعديل</b-button>
+      <b-button size="sm" class="btn btn_orange my-2 py-2 px-r px-l rounded_0" type="button"  v-on:click="EditFolderListCheckbox(EditFolderListCheckboxItem)"> تعديل</b-button>
     </b-modal>
 
     <img
@@ -46,7 +46,7 @@
 
     <b-modal id="modal-addList" title="إضافة مجلد جديد" hide-footer>
       <b-form-input v-model="ListName" class="my-4" placeholder="اكتب اسم المجلد"></b-form-input>
-      <b-button size="sm" class="btn btn_Green my-2 py-2 px-r px-l rounded_0" type="button"  v-on:click="AddFolders"> إنشاء</b-button>
+      <b-button size="sm" class="btn btn_orange my-2 py-2 px-r px-l rounded_0" type="button"  v-on:click="AddFolders"> إنشاء</b-button>
     </b-modal>
   </div>
 </template>
@@ -66,11 +66,36 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.Drop();
       this.fetchFolders();
+      this.Drop();
     }, 1000);
+    this.GetWatcher();
   },
   methods: {
+    GetWatcher(){
+      console.log("Quiz_data ....",this.Quiz_data[this.Quiz_serial].id)
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer${config.token}`);
+      myHeaders.append("Content-Type", "application/json");
+      // myHeaders.append("Cookie", "__wpdm_client=f5ddc77fd332e35ab25f445937d36c7c; _learn_press_session_079eddece82f2d2937cd2c203a8195b0=77e4246fa580e1b1de925170f59b9887%7C%7C1665855786%7C%7Ca35f3656287cbaac2c9668ecdd670d92");
+
+      var raw = JSON.stringify({
+        "question_id": 17480
+      });
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch(config.apiUrl+"wp-json/learnpress/v1/folders/question", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          console.log("ddd.....",JSON.parse(result))
+        })
+        .catch(error => console.log('error', error));
+    },
     Drop(){
       var checkList = document.getElementById('list1');
       checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
@@ -90,18 +115,33 @@ export default {
       fetch(config.apiUrl+`wp-json/learnpress/v1/folders/${parseInt(list.id)}`, requestOptions)
         .then(response => response.text())
         .then(result =>{
-          console.log("RemaoveFolder",JSON.parse(result))
           this.fetchFolders()
         })
         .catch(error => console.log('error', error));
     },
     EditFolderListCheckbox(item){
-      console.log("EditFolderListCheckbox",item)
-      this.FoldersList.forEach(ele => {
-        if(ele.title === item.title){
-          item.title = this.EditeListName;
-        }
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer${config.token}`);
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "__wpdm_client=f5ddc77fd332e35ab25f445937d36c7c; _learn_press_session_079eddece82f2d2937cd2c203a8195b0=77e4246fa580e1b1de925170f59b9887%7C%7C1665855786%7C%7Ca35f3656287cbaac2c9668ecdd670d92");
+
+      var raw = JSON.stringify({
+        "name": this.EditeListName
       });
+
+      var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch(`${config.apiUrl}wp-json/learnpress/v1/folders/${item.id}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          this.fetchFolders();
+        })
+        .catch(error => console.log('error', error));
     },
     fetchFolders(){
       var myHeaders = new Headers();
@@ -119,7 +159,7 @@ export default {
         .then(response => response.text())
         .then(result =>{
           this.Folders = JSON.parse(result)
-          console.log("JSON.parse(result)",JSON.parse(result))
+          console.log("fetchFolders",JSON.parse(result))
         })
         .catch(error => console.log('error f', error));
     },
@@ -174,6 +214,7 @@ export default {
         })
         .catch(error => console.log('error', error));
     },
+
   }
 }
 

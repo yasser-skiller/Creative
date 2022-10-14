@@ -85,7 +85,7 @@ import Loading from "@/components/Loading";
     },
     mounted() {
       this.Result = JSON.parse(localStorage.getItem(`Result_${this.$route.params.slug}`));
-      console.log("this.Result",this.Result.results)
+      console.log("this.Result",this.Result)
     },
     methods: {
 
